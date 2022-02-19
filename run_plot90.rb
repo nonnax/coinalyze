@@ -4,4 +4,4 @@ require 'daru'
 require 'rubytools/fzf'
 f=Dir["*9*.csv"]
   .map{|f| File.basename(f, '.*').gsub(/_.+/,'')}
-  .fzf_preview("./harry_plotter.rb {}_90.csv && echo  && echo '30-days' && echo && ./harry_plotter.rb {}_30.csv | tail ")
+  .fzf_preview("echo '90-days' && ./harry_plotter.rb {}_90.csv && echo '30-days' && ./harry_plotter.rb {}_30.csv | tail ")
