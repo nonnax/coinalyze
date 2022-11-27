@@ -1,1 +1,0 @@
-/home/seti/ruby-sandbox/github/rubytools/bin/histoplot.rb
