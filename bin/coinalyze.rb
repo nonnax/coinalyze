@@ -17,7 +17,8 @@ def template(day)
   ___
 end
 
-def summary(day=14, autoupdate: false, &block)
+def summary(day, autoupdate: false, &block)
+  day||=14
   if autoupdate
     th=
     Thread.new do
@@ -45,6 +46,7 @@ end
 opts={}
 OptionParser.new{|o|
   o.on('-a', '--autoupdate')
+  o.on('-c', '--charts')
   o.on('-u', '--update')
   o.on('-d', '--describe')
 }.parse!(into:opts)
@@ -54,6 +56,9 @@ day=ARGV.pop
 case opts
 in {update:true}
   puts IO.popen("coingetohlc.rb", &:read)
+  exit
+in {charts:true}
+  puts IO.popen("plotfzf.rb", &:read)
   exit
 in {autoupdate:true}
   summary(day, **opts){|day| template(day) }
