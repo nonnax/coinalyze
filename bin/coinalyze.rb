@@ -45,13 +45,16 @@ end
 opts={}
 OptionParser.new{|o|
   o.on('-a', '--autoupdate')
-  o.on('-u', '--autoupdate')
+  o.on('-u', '--update')
   o.on('-d', '--describe')
 }.parse!(into:opts)
 
 day=ARGV.pop
 
 case opts
+in {update:true}
+  puts IO.popen("coingetohlc.rb", &:read)
+  exit
 in {autoupdate:true}
   summary(day, **opts){|day| template(day) }
 in {describe:true}
