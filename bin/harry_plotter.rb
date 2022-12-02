@@ -16,13 +16,13 @@ f = ARGV.first
 df = ArrayCSV.new(f, autosave:false)
 
 df_dup = df.dataframe.dup
-df_dup.shift
-dataframe = df_dup.reverse
+df_dup.shift # remove header
+dataframe = df_dup#.reverse
 
 plot_view=[]
 cache path: "plots/hplot-#{f}" do
   dataframe.plot_df do |b, r|
-    [b, r[:title].to_date.strftime('%x'), r.values_at(:high, :low)]
+    [b, r[:title].to_date.strftime('%x.%H:%M'), r.values_at(:high, :low)]
     .flatten
     .map{|e| e.to_s.tr('_','').is_number? ? e.to_i : e } # integers make it easier to spot changes
     .map{|e| e.to_s.rjust(13) }

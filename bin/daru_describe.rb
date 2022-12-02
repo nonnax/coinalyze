@@ -18,28 +18,31 @@ f = "#{id}_#{days}.csv"
 dfbank = Daru::DataFrame.from_csv(f, header_converters: [:symbol])
 # p dfbank
 # p dfbank.describe
-rotated = dfbank
-          .describe
-          .transpose
+rotated =
+dfbank
+  .describe
+  .transpose
 
 rotated['max-min'] = (rotated[:max] - rotated[:min])
 rotated['high/mean'] = (rotated[:max] / rotated[:mean])
 rotated['low/mean'] = (rotated[:min] / rotated[:mean])
 
-lines = rotated
-        .transpose
-        .inspect
-        .to_s
-        .lines
+lines =
+rotated
+  .transpose
+  .inspect
+  .to_s
+  .lines
 
 lines.shift
 
-arr = CSV.parse(
-  lines
-    .map(&:strip)
-    .map(&:split)
-    .map { |e| e.join(',') }
-    .join("\n")
+arr =
+CSV.parse(
+lines
+  .map(&:strip)
+  .map(&:split)
+  .map { |e| e.join(',') }
+  .join("\n")
 )
 
 arr[0].prepend ' '

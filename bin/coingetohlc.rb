@@ -29,8 +29,7 @@ def update(coin, days = 1)
   data.dataframe =
   data
    .dataframe
-   .sort
-   .reverse
+   .sort{|a, b| a[0]<=>b[0]}
    .prepend %w[date open high low close]
 
   data.save
