@@ -24,8 +24,10 @@ dfbank
   .transpose
 
 rotated['max-min'] = (rotated[:max] - rotated[:min])
-rotated['high/mean'] = (rotated[:max] / rotated[:mean])
-rotated['low/mean'] = (rotated[:min] / rotated[:mean])
+rotated['delta'] = (rotated[:min]/rotated[:max]-1)*100
+rotated['mean_delta'] = (rotated[:mean]/rotated[:max]-1)*100
+# rotated['high/mean'] = (rotated[:max] / rotated[:mean])
+# rotated['low/mean'] = (rotated[:min] / rotated[:mean])
 
 lines =
 rotated

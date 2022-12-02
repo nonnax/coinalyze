@@ -3,7 +3,7 @@
 
 # Id$ nonnax 2021-11-12 23:41:51 +0800
 $LOAD_PATH<<'../lib'
-require 'excon'
+require 'faraday'
 require 'json'
 require 'file/file_ext'
 require 'rubytools/array_csv'
@@ -16,7 +16,7 @@ def update(coin, days = 1)
   puts [coin, days].join('/')
 
   # days = 7 unless days
-  res = Excon.get "https://api.coingecko.com/api/v3/coins/#{coin}/ohlc?vs_currency=php&days=#{days}"
+  res = Faraday.get "https://api.coingecko.com/api/v3/coins/#{coin}/ohlc?vs_currency=php&days=#{days}"
 
   body = JSON.parse(res.body)
   # create a new object to avoid race conditions

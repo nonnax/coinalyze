@@ -13,14 +13,19 @@ require 'rubytools/time_and_date_ext'
 using NumericExt
 
 f = ARGV.first
+exit unless f
 df = ArrayCSV.new(f, autosave:false)
 
 df_dup = df.dataframe.dup
 df_dup.shift # remove header
 dataframe = df_dup#.reverse
 
+def daystamp
+  Time.now.strftime("%Y%m%d")
+end
+
 plot_view=[]
-cache path: "plots/hplot-#{f}" do
+cache path: "plots/hp-#{daystamp}-#{f}" do
   dataframe.plot_df do |b, r|
     [b, r[:title].to_date.strftime('%x.%H:%M'), r.values_at(:high, :low)]
     .flatten
