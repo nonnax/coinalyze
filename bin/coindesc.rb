@@ -5,7 +5,8 @@ require 'rubytools/fzf'
 
 def cmd
   s=<<~___
-  harry_plotter.rb {}_1.csv | tail -n14
+  coinwatch.rb {}
+  && harry_plotter.rb {}_7.csv | tail -n10
   && echo 1
   && daru_describe.rb {}_1.csv
   && echo 14

@@ -25,11 +25,11 @@ def daystamp
 end
 
 plot_view=[]
-cache path: "plots/hp-#{daystamp}-#{f}" do
+cache timeout: 15, path: "plots/hp-#{daystamp}-#{f}" do
   dataframe.plot_df do |b, r|
-    [b, r[:title].to_date.strftime('%x.%H:%M'), r.values_at(:high, :low)]
+    [b, r[:title].to_date.strftime('%x.%H:%M'), r[:close], r.values_at(:high, :low).join(" / ")]
     .flatten
-    .map{|e| e.to_s.tr('_','').is_number? ? e.to_i : e } # integers make it easier to spot changes
+    # .map{|e| e.to_s.tr('_','').is_number? ? e.to_i : e } # integers make it easier to spot changes
     .map{|e| e.to_s.rjust(13) }
     .join(' ')
     .then{|s| plot_view<<s}

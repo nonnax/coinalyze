@@ -1,7 +1,9 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-12-02 12:43:44
 coin,n=ARGV
+
 n||=10
+
 names=
 Dir["plots/h*#{coin}*"]
 .select{|f| f.match?(/\d/)}
