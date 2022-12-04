@@ -1,11 +1,11 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-12-02 12:43:44
-coin,n=ARGV
+coin,n,today=ARGV
 
 n||=10
-
+today ||= Time.now.strftime("%Y%m%d")
 names=
-Dir["plots/h*#{coin}*"]
+Dir["plots/h*#{today}*#{coin}*"]
 .select{|f| f.match?(/\d/)}
 .reject{|f| f.match?(/14/)}
 .sort{|a, b| a.scan(/\d+\./)[0].to_i<=>b.scan(/\d+\./)[0].to_i}

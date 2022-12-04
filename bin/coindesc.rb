@@ -6,7 +6,7 @@ require 'rubytools/fzf'
 def cmd
   s=<<~___
   coinwatch.rb {}
-  && harry_plotter.rb {}_7.csv | tail -n10
+  && harry_plotter.rb {}_7.csv | tail -n20
   && echo 1
   && daru_describe.rb {}_1.csv
   && echo 14
@@ -19,4 +19,10 @@ def cmd
   s.gsub(/\n+/, ' ')
 end
 
-%w[bitcoin-cash litecoin chainlink ripple uniswap].fzf_preview(cmd)
+def show_plot(c)
+  puts IO.popen("plotpv.rb #{c.pop} 200", &:read)
+end
+
+%w[bitcoin-cash litecoin chainlink ripple uniswap]
+.fzf_preview(cmd)
+.then(&method(:show_plot))

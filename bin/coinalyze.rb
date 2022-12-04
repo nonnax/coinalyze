@@ -56,15 +56,12 @@ day=ARGV.pop
 case opts
 in {update:true}
   puts IO.popen("coingetohlc.rb", &:read)
-  exit
 in {charts:true}
   puts IO.popen("plotfzf.rb", &:read)
-  exit
 in {autoupdate:true}
   summary(day, **opts){|day| template(day) }
 in {describe:true}
-  IO.popen("coindesc.rb", &:read)
-  exit
+  puts IO.popen("coindesc.rb", &:read)
 else
   summary(day){|day| template(day) }
 end

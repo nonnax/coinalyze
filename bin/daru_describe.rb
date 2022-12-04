@@ -18,7 +18,8 @@ f = "#{id}_#{days}.csv"
 
 dfbank = Daru::DataFrame.from_csv(f, header_converters: [:symbol])
 # p dfbank
-# p dfbank.describe
+# p dfbank.describe.transpose
+
 rotated =
 dfbank
   .describe
