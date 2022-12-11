@@ -7,6 +7,7 @@ require 'json'
 require 'rubytools/array_table'
 require 'rubytools/numeric_ext'
 require 'rubytools/ansi_color'
+require 'file/filer'
 
 id, days = ARGV
 
@@ -35,6 +36,10 @@ rotated['sell_10p'] = (rotated['miav-buy']*1.1)
 # rotated['max-min'] = (rotated[:max] - rotated[:min])
 # rotated['high/mean'] = (rotated[:max] / rotated[:mean])
 # rotated['low/mean'] = (rotated[:min] / rotated[:mean])
+
+f, v=Filer.load(MarshalFile.new('darudesc.mar')){ {} }
+v[[id, days].join]=rotated
+f.write v
 
 lines =
 rotated

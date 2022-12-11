@@ -15,6 +15,8 @@ def cmd
   && daru_describe.rb {}_30.csv
   && echo 90
   && daru_describe.rb {}_90.csv
+  && echo 180
+  && daru_describe.rb {}_180.csv
   ___
   s.gsub(/\n+/, ' ')
 end
