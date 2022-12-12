@@ -17,22 +17,23 @@ rescue
   return
 end
 
+begin
 ARGV
-.sort{|a, b| a.scan(/\d+/).first.to_i<=>b.scan(/\d+/).first.to_i}.map do |f|
-  [[File.basename(f,'.*'), ave(f).to_h]].to_h
-end
+.sort{|a, b| a.scan(/\d+/).first.to_i<=>b.scan(/\d+/).first.to_i}
+.map{ |f| [[File.basename(f,'.*'), ave(f).to_h]].to_h }
 .inject({}){|acc, h| acc.merge(h.transform_values(&:values))}
-.map{|k, v| [k, v<<v.sum/v.size.to_f] }.to_h
+.map{|k, v|
+  [k, v<<v.sum/v.size.to_f]
+}.to_h
 .to_flat_array
 .to_balanced_array
 .then{|arr| arr.prepend(%w[coin open high low close average])}
 .transpose
 .tap{|arr|
-  first=arr.shift
-  first<<'average'
+  first=arr.shift+['average']
   arr.map{|r|
     name=r.shift
-    v=r.sum/r.size.to_f
+    v=r.sum/r.size.to_f rescue nil
     r.prepend(name)
     r<<v
     r
@@ -41,3 +42,8 @@ end
 }
 .to_table
 .then(&method(:puts))
+
+rescue=>e
+  puts 'coinave.rb <glob>'
+  puts e.backtrace
+end

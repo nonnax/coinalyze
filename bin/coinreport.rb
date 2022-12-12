@@ -5,6 +5,8 @@ require 'benchmark'
 
 using NThreadsExt
 
+puts IO.popen("coingetohlc.rb", &:read) # try to get unless already updated
+
 Benchmark.bm do |b|
   b.report{
     IO.popen("lstrim.rb *.csv", &:readlines)
