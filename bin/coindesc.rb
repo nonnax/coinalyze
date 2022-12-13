@@ -9,8 +9,6 @@ def cmd
   && harry_plotter.rb {}_7.csv | tail -n20
   && echo 1
   && daru_describe.rb {}_1.csv
-  && echo 14
-  && daru_describe.rb {}_14.csv
   && echo 30
   && daru_describe.rb {}_30.csv
   && echo 90

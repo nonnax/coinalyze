@@ -18,7 +18,7 @@ def template(day)
 end
 
 def summary(day, autoupdate: false, &block)
-  day||=14
+  day||=30
   if autoupdate
     th=
     Thread.new do

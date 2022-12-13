@@ -5,11 +5,13 @@
 # require 'rubytools/fzf'
 $LOAD_PATH<<'../lib'
 require_relative '../lib/cache'
-require 'rubytools/ascii_plot'
 require 'rubytools/array_csv'
 require 'rubytools/numeric_ext'
 require 'rubytools/time_and_date_ext'
 require 'file/file_ext'
+require 'ascii_plot/ascii_plot'
+
+using ArrayPlotExt
 
 using NumericExt
 
@@ -30,16 +32,6 @@ def daystamp
 end
 
 cache timeout: timeout, path: "plots/hp-#{daystamp}-#{f}" do
-  []
-  .tap do |plot_view|
-    dataframe.plot_df do |b, r|
-      [b, r[:title].to_date.strftime('%x.%H:%M'), r[:close], r.values_at(:high, :low).join(" / ")].flatten
-      # .map{|e| e.to_s.tr('_','').is_number? ? e.to_i : e } # integers make it easier to spot changes
-      .map{|e| e.to_s.rjust(13) }
-      .join(' ')
-      .then{|s| plot_view<<s}
-    end
-  end
-  .join("\n")
+ dataframe.last(80).plot_candlestick(scale: 100/10)
 end
 .then(&method(:puts))
