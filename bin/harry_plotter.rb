@@ -5,33 +5,39 @@
 # require 'rubytools/fzf'
 $LOAD_PATH<<'../lib'
 require_relative '../lib/cache'
+require_relative '../lib/argv_sorted'
 require 'rubytools/array_csv'
 require 'rubytools/numeric_ext'
-require 'rubytools/time_and_date_ext'
+require 'rubytools/time_ext'
 require 'file/file_ext'
-require 'ascii_plot/ascii_plot'
+require 'ascii_plot/array_plot_ext'
 
 using ArrayPlotExt
 
 using NumericExt
 
-f = ARGV.first
-exit unless f
 
-timeout=15
-timeout=0 if File.age(f) > 60
+def plot(f)
+  exit unless f
+  puts f
+  timeout=15
+  timeout=0 if File.age(f) > 60
 
-df = ArrayCSV.new(f, autosave:false)
+  df = ArrayCSV.new(f, autosave:false)
 
-df_dup = df.dataframe.dup
-df_dup.shift # remove header
-dataframe = df_dup#.reverse
+  df_dup = df.dataframe.dup
+  df_dup.shift # remove header
+  dataframe = df_dup#.reverse
 
-def daystamp
-  Time.now.strftime("%Y%m%d")
+  def daystamp
+    Time.now.strftime("%Y%m%d")
+  end
+
+  cache timeout: timeout, path: "plots/hp-#{daystamp}-#{f}" do
+   dataframe.last(80).plot_candlestick(scale: 100/10)
+  end
+  .then(&method(:puts))
+  puts
 end
 
-cache timeout: timeout, path: "plots/hp-#{daystamp}-#{f}" do
- dataframe.last(80).plot_candlestick(scale: 100/10)
-end
-.then(&method(:puts))
+argv_sorted.each(&method(:plot))

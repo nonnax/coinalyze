@@ -3,6 +3,6 @@
 require 'daru'
 require 'rubytools/fzf'
 # p IO.popen("./get.rb", &:read)
-f=Dir["*9*.csv"]
+f=Dir["*3*.csv"]
   .map{|f| File.basename(f, '.*').gsub(/_.+/,'')}
-  .fzf_preview("echo '1-day' && ./harry_plotter.rb {}_1.csv | head && echo '30-days' && ./harry_plotter.rb {}_30.csv | tail")
+  .fzf_preview("echo '1-day' && harry_plotter.rb {}_1.csv | head && echo '30-days' && harry_plotter.rb {}_30.csv | tail")
