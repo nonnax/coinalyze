@@ -19,10 +19,11 @@ using NumericExt
 
 
 def plot(f)
-  exit unless f
+  exit unless f or f.match?(/.csv$/i)
   winy, winx = IO::Screen.winsize
   width = winx/2 - 5
-  puts f
+  lines = '-' * (winx-f.size)
+  puts [f, lines].join('')
   timeout=15
   timeout=0 if File.age(f) > 60
 

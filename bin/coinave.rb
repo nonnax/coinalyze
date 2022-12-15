@@ -9,7 +9,11 @@ def ave(f)
  st=CSVFile.new(f)
  c=Filer.read(st)
 
- c.transpose.group_by(&:shift).transform_values(&:flatten).filter_map do |k, v|
+ c
+ .transpose
+ .group_by(&:shift)
+ .transform_values(&:flatten)
+ .filter_map do |k, v|
   [k, v.inject(:+)/v.size.to_f] unless k.match?(/date/)
  end
 

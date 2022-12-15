@@ -4,9 +4,7 @@
 # Id$ nonnax 2021-11-12 23:41:51 +0800
 $LOAD_PATH<<'../lib'
 require 'faraday'
-require 'json'
 require 'file/file_ext'
-require 'rubytools/array_csv'
 require 'rubytools/time_ext'
 require 'benchmark'
 require 'coingecko/ohlc'
