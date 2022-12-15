@@ -11,6 +11,7 @@ require 'rubytools/numeric_ext'
 require 'rubytools/time_ext'
 require 'file/file_ext'
 require 'ascii_plot/array_plot_ext'
+require 'rubytools/console_ext'
 
 using ArrayPlotExt
 
@@ -19,6 +20,8 @@ using NumericExt
 
 def plot(f)
   exit unless f
+  winy, winx = IO::Screen.winsize
+  width = winx/2 - 5
   puts f
   timeout=15
   timeout=0 if File.age(f) > 60
@@ -34,7 +37,7 @@ def plot(f)
   end
 
   cache timeout: timeout, path: "plots/hp-#{daystamp}-#{f}" do
-   dataframe.last(80).plot_candlestick(scale: 100/10)
+   dataframe.last(width).plot_candlestick(scale: 100/10)
   end
   .then(&method(:puts))
   puts

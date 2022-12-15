@@ -7,7 +7,7 @@ require 'faraday'
 require 'json'
 require 'file/file_ext'
 require 'rubytools/array_csv'
-require 'rubytools/time_and_date_ext'
+require 'rubytools/time_ext'
 require 'benchmark'
 require 'coingecko/ohlc'
 
