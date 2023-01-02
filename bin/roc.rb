@@ -10,7 +10,7 @@ def ma(f, n, **params)
  st=CSVFile.new(f)
  arr = Filer.read(st).map(&:last).dup
  arr.shift
- arr.moving_average(n).last(70).each_cons(2).map.with_index{|a, i| [i, a].flatten }.plot_bars(**params) #.delta_change.map(&:to_percent).map(&:to_s)
+ arr.rate_change(n).last(70).each_cons(2).map.with_index{|a, i| [i, a].flatten }.plot_bars(**params) #.delta_change.map(&:to_percent).map(&:to_s)
  # arr.moving_average(n).last(70).to_series.plot_bars(**params) #.delta_change.map(&:to_percent).map(&:to_s)
 end
 

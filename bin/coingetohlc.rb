@@ -9,14 +9,15 @@ require 'rubytools/time_ext'
 require 'benchmark'
 require 'coingecko/ohlc'
 
-coin_list = %w[ethereum bitcoin-cash chainlink litecoin ripple uniswap]
+coin,=ARGV
+coin_list = %w[bitcoin ethereum dogecoin chainlink]+[coin || 'bitcoin']
 
-if (age=File.age("litecoin_1.csv")) > 120
+if [File.age("ethereum_1.csv"), File.age("#{coin}_1.csv")].all?{|age| age > 120}
   Benchmark.bm{|b|
-    b.report{Coingecko.get_ohlc{ coin_list }}
+    b.report{Coingecko.get_ohlc(days: [1, 30]){ coin_list.uniq }}
   }
 else
   puts "data is up to date"
 end
 
-puts (1000*age).to_ts
+# puts (1000*age).to_ts

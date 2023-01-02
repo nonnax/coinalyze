@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 # Id$ nonnax 2022-12-12 11:50:02
-require 'thread/n_threads_ext'
+require 'thread/n_thread_array_deco'
 require 'benchmark'
 
-using NThreadsExt
+# using NThreadsExt
 
 puts IO.popen("coingetohlc.rb", &:read) # try to get unless already updated
 
@@ -15,11 +15,11 @@ Benchmark.bm do |b|
      "coinave.rb #{e}*"
     }
     .then{|arr|
-     vals=[]
-     ThreadArray.new(arr).map_threads(threads: 8){|cmd|
-       vals<<IO.popen(cmd, &:read)
+     NThreadArray
+     .new(arr)
+     .map(threads: 8){|cmd|
+       IO.popen(cmd, &:read)
      }
-     vals
     }
     .map{|v|
      puts v

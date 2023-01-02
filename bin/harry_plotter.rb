@@ -38,7 +38,7 @@ def plot(f)
   end
 
   cache timeout: timeout, path: "plots/hp-#{daystamp}-#{f}" do
-   dataframe.last(width).plot_candlestick(scale: 100/10)
+   dataframe.last(width).plot_candlestick(scale: 100/7)
   end
   .then(&method(:puts))
   puts

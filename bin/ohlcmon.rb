@@ -7,21 +7,41 @@ require_relative '../lib/argv_sorted'
 
 # using TimeExt
 
-coinstr, delta_value=argv_sorted
+coins=argv_sorted
+fail 'ohlcmon.rb <name>' if coins.empty?
+days='1,30'
+days=coins.pop if coins.last.match?(/\d/)
 
 delta_value ||= 5
 
-def monitor(coinstr, delta_value=5)
+def monitor(delta_value=5)
  IO.popen("coingetohlc.rb", &:read) if File.age('litecoin_1.csv') > 60*5
- puts IO.popen(format("coinread.rb %s", delta_value.to_i), &:read)
- puts IO.popen("harry_plotter.rb #{coinstr}*.csv", &:read)
+ sleep 0.5
+ IO.popen("watchy.rb", &:read)
+ puts IO.popen(format("coinread.rb %s", delta_value), &:read)
+end
+
+def plot(coin, *days)
+  fnames = days.map{|d| "#{coin}*#{d}.csv" }
+  puts IO.popen("harry_plotter.rb #{fnames.join(' ')}", &:read)
 end
 
 # first run
-monitor(coinstr, delta_value)
+monitor
+coins.each do |coin|
+  plot(coin, *days.split(/,/))
+end
+
 
 FiberTags.new do
  _every 5.minutes do
-  monitor(coinstr, delta_value)
+  monitor
  end
+
+ coins.each do |coin|
+  _every 5.minutes do
+   plot(coin, *days.split(/,/))
+  end
+ end
+
 end
