@@ -10,11 +10,11 @@ require 'benchmark'
 require 'coingecko/ohlc'
 
 coin,=ARGV
-coin_list = %w[bitcoin ethereum dogecoin chainlink]+[coin || 'bitcoin']
+coin_list = %w[avalanche-2 bitcoin ethereum dogecoin chainlink]+[coin || 'bitcoin']
 
 if [File.age("ethereum_1.csv"), File.age("#{coin}_1.csv")].all?{|age| age > 120}
   Benchmark.bm{|b|
-    b.report{Coingecko.get_ohlc(days: [1, 30]){ coin_list.uniq }}
+    b.report{Coingecko.get_ohlc(days: [1, 180]){ coin_list.uniq }}
   }
 else
   puts "data is up to date"

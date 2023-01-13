@@ -2,11 +2,11 @@
 # Id$ nonnax 2022-12-12 10:09:47
 require 'file/filer'
 require 'df/df_ext'
-require 'rubytools/core_ext'
+# require 'rubytools/core_ext'
 require 'rubytools/numeric_ext'
 require 'math/math_ext'
 using DFExt
-using CoreExt
+# using CoreExt
 using MathExt
 using NumericExt
 

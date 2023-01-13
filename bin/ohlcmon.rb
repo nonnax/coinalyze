@@ -9,7 +9,7 @@ require_relative '../lib/argv_sorted'
 
 coins=argv_sorted
 fail 'ohlcmon.rb <name>' if coins.empty?
-days='1,30'
+days='1,180'
 days=coins.pop if coins.last.match?(/\d/)
 
 delta_value ||= 5
@@ -23,19 +23,32 @@ end
 
 def plot(coin, *days)
   fnames = days.map{|d| "#{coin}*#{d}.csv" }
-  puts IO.popen("harry_plotter.rb #{fnames.join(' ')}", &:read)
+  fnames.each do |f|
+    puts IO.popen("harry_plotter.rb #{f}", &:read)
+    puts IO.popen("ma.rb 11 10 #{f}", &:read)
+  end
+end
+
+def watch(coin)
+  puts IO.popen("coinwatch.rb #{coin}", &:read)
 end
 
 # first run
 monitor
 coins.each do |coin|
   plot(coin, *days.split(/,/))
+  watch(coin)
 end
-
 
 FiberTags.new do
  _every 5.minutes do
   monitor
+ end
+
+ coins.each do |coin|
+  _every 5.minutes do
+   watch(coin)
+  end
  end
 
  coins.each do |coin|

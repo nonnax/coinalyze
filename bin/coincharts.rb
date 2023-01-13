@@ -19,6 +19,16 @@ def ma(f, n, **params)
  calc(:moving_average, f, n, **params)
 end
 
+class Array
+ def self_array(n)
+   each_cons(n).map(&:last).flatten
+ end
+end
+
+def plain(f, n, **params)
+ calc(:self_array, f, n, **params)
+end
+
 n, scale, *files = ARGV
 n ||= 11
 scale ||= 4
@@ -27,6 +37,8 @@ files
  .sort{|a, b| a.scan(/\d+/).first.to_i<=>b.scan(/\d+/).first.to_i }
  .map do |f|
   puts [f, '.'*140].join
+  puts 'plain'
+  puts plain(f, n.to_i, scale: scale.to_i)
   puts 'moving ave'
   puts ma(f, n.to_i, scale: scale.to_i)
   puts 'rate of change'

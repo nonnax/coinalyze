@@ -11,7 +11,7 @@ fa, fb, width = ARGV
 width ||= 90
 width = width.to_i
 
-_x, width = winsize unless width
+_y, width = winsize unless width
 
 lines_a=File.readlines(fa, chomp:true)
 lines_b=File.readlines(fb, chomp:true)
@@ -58,5 +58,3 @@ FiberTags.new do
    print sp
   end
 end
-
-
